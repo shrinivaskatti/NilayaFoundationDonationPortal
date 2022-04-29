@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<style>
+div {
+  background-color: #ffffff;
+}
+table, th, td {
+  border: 2px solid #f5821f;
+  border-collapse: collapse;
+  border-style: groove;
+  
+}
+th, td {
+  padding: 15px;
+}
+p,li {
+  font-size:12.0pt;font-family:"Helvetica",sans-serif;
+}
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div>
+<table border="1">
+<tbody>
+<tr>
+<td>
+<p style="text-align: justify;">Namaskara [Name],</p>
+<p style="text-align: justify;">Many thanks for joining hands in Nilaya Foundation's vidya daana initiative. Your contribution has helped deserving, poor and meritorious students. This year Nilaya Foundation awarded <strong>Rs 23.58 lakhs</strong> worth scholarships to more than <strong>196</strong> students in <strong>Phase 1</strong>. We estimate to award scholarships of approximately 7.00 lakhs to ~45 students in Phase 2. Process is spread into 2 phases to account for delay in admission to professional courses due to covid impact. Overall it will be Rs. 30.00 lakhs plus scholarship to ~240 students.</p>
+<p style="text-align: justify;">Overall summary is as follows:</p>
+<ol style="text-align: justify;">
+<li>Phase 1 : 196 students, 23,58,500.00 - <a target="_blank" style="text-color:white" href="http://www.nilayafoundation.org/Scholarships.html">Scholarship Students - Phase 1</a></li>
+<li>Phase 2 : ~45 students, Amount : Rs. 7,00,000.00</li>
+<li>Students benefited spanned across 120 different places (PIN Code) in 28 districts from 5 different states covering 20 disciplines of study (from Primary to PG courses)</li>
+</ol>
+<p style="text-align: justify;"><strong>This was possible only with your generous contribution.</strong></p>
+<p style="text-align: justify;">Nilaya family wishes to thank you and your family for this noble act. We sincerely hope that similar help and contribution will continue in future. Feel free to reach out to us for further information.</p>
+<p style="text-align: justify;">Please find attached receipt of your contribution.<br /><br /></p>
+<p style="text-align: justify;">We request you to update your communication details with us for future use.</p>
+<p style="text-align: center;"><a class="button" style="text-color:white" href="https://forms.gle/g85KVWxwc6yWyKQB9">Update Details</a></p>
+<p style="text-align: justify;">Dhanyavada,<br />Nilaya Foundation,<br />Mobile : 6364673746<br/></br>
+<a target="_blank" href="http://www.nilayafoundation.org/"><img src="http://nilayafoundation.org/Nilaya1.jpg" alt="Nilaya Foundation" width="30" height="30"></a>
+<a target="_blank" href="https://www.linkedin.com/in/nilaya-foundation-9b889616a" ><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" width="30" height="30"/></a>
+<a target="_blank" href="https://facebook.com/Nilaya-Foundation-103642488308915" ><img src="https://cdn-icons-png.flaticon.com/512/145/145802.png" alt="Facebook" width="30" height="30"/></a>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</body>
+</html>

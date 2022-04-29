@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Donation Portal</title>
+
+<meta name="google-signin-client_id"
+	content="4498781067-d8pj3ot435is67nlmsqi4mrmb0bcolp3.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<!-- <link rel="stylesheet" type="text/css" href="screen.css" />
+<link rel="stylesheet" type="text/css" href="demo.css" /> -->
+<style type="text/css">
+.style1 {
+	font-family: Calibri;
+	font-size: 150;
+}
+
+.style2 {
+	font-family: Calibri;
+	font-size: medium;
+}
+
+
+.required {
+    color: red;
+  }
+</style>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+	crossorigin="anonymous"></script>
+	
+<script>
+	window.onload = function setDateRange(){
+		//"2022-03-31"
+		console.log("loading");
+		const d = new Date();
+		var month = (d.getMonth()+1);
+		if(month<10){
+			month = "0"+month;
+		}
+		
+		var date =d.getDate();
+		if(date<10){
+			date = "0"+date;
+		}
+		var maxDate = d.getFullYear()+"-"+month+"-"+date;
+		var minDate = (d.getFullYear()-1)+"-04-01";
+		document.getElementById("transactiondate").max = maxDate;
+		document.getElementById("transactiondate").min = minDate;
+	}
+
+	function onSignIn(googleUser) {
+		var profile = googleUser.getBasicProfile();
+		console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		console.log('Name: ' + profile.getName());
+		console.log('Image URL: ' + profile.getImageUrl());
+		console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+		document.getElementById("submit").disabled = false;
+		document.getElementById("signin").style.display="none";
+		document.getElementById("signout").style.display="block";
+		var eValue = profile.getEmail()!=null ? profile.getEmail() :profile.getName();
+		
+		document.getElementById("enteredby").value =  eValue;
+	}
+	function submitDonation() {
+		console.log("Details...");
+
+	}
+	function signOut() {
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function() {
+			document.getElementById("submit").disabled = true;
+			document.getElementById("signin").style.display="block";
+			document.getElementById("signout").style.display="none";
+			console.log('User signed out.');
+		});
+
+	}
+	
+
+</script>
+</head>
+<body>
+
+
+	<div class="row">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			<table width="100%" cellspacing=0>
+				<tr>
+					<td width=10%><img src="Nilaya1.jpg" alt="Logo" height=130
+						wiq=130 /></td>
+					<td valign="center"><strong><h1>Nilaya
+								Foundation</h1></strong></td>
+				</tr>
+			</table>
+
+		</div>
+		<div class="col-lg-2"></div>
+	</div>
+	<br>
+
+	<div id="detailsform"  style="display: block;">
+		
+		<!--  onsubmit="setTimeout(function(){window.location.reload();},10);-->
+		<form  action="http://localhost:8090/N_POCW/webapi/receipt/setDetails"  method="POST"  >
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-4">
+					<h2>Enter Donor Details</h2>
+					<span class="required" style="font-size: 75%">* Required Fields</span>
+				</div>
+				<div class="col-lg-2"></div>
+				<div class="col-lg-2">
+					<div id="loginform" class="container" style="display: block;">
+
+						<div id="signin" style="display: block;" align="right"
+							class="g-signin2" data-onsuccess="onSignIn"></div>
+						<div id="signout" align="right" style="display: none;">
+							<a class="button" onclick="signOut();">Sign out</a>
+						</div>
+
+					</div>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-4">
+					
+					<div class="form-group" required>
+						<label for="name">Name: <span class="required">*</span></label> 
+						<input type="text" class="form-control" id="name" placeholder="Enter Name" name="name" required>
+					</div>
+					<br>
+					<div class="form-group" >
+						<label for="pan">PAN:</span></label> 
+						<input type="text" class="form-control" id="pan" placeholder="Enter PAN Number" name="pan" >
+					</div>
+					<br>
+					<div class="form-group" >
+						<label for="amount">Donation Amount: <span class="required">*</span></label> 
+						<input type="number" class="form-control" id="amount" placeholder="Enter Donation Amount" name="amount" required>
+					</div>
+					<br>					
+				</div>
+				<div class="col-lg-4">
+					<div class="form-group" required>
+						<label for="email">Email: <span class="required">*</span></label>
+						<input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+					</div>
+					<br>
+					<div class="form-group">
+						<label for="mobilenumber">Mobile Number:</label>
+						<input type="text" class="form-control" id="mobilenumber" placeholder="Enter Mobile Number" name="mobilenumber">
+					</div>
+					<br>
+					<div class="form-group" required>
+						<label for="transactiondate">Donation Date: <span class="required">*</span></label>
+						<input type="date" class="form-control"  id="transactiondate" placeholder="Enter Donation Date" name="transactiondate" required>
+					</div>
+					<br>
+				</div>
+				<div class="col-lg-2">
+					<ul>
+						<li>Please enter valid donor email. If not available enter Volunteer email in place of donor email</li>
+						<li>Ensure to enter correct amount and date before submission.</li>
+						<li>Please enter PAN and Mobile Number of donor.</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-4">
+					<h2>Enter Volunteer Details</h2>
+				</div>
+				<div class="col-lg-6"></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-4">
+				
+				<div class="form-group">
+						<label for="volunteername">Name:</label> 
+						<input type="text" class="form-control" id="volunteername" placeholder="Enter Volunteer Name" name="volunteername">
+					</div>
+				</div>
+				<div class="col-lg-4">
+				<div class="form-group">
+						<label for="volunteeremail">Email:</label>
+						<input type="email" class="form-control" id="volunteeremail" placeholder="Enter Volunteer email" name="volunteeremail">
+					</div>
+				</div>
+				<div class="col-lg-2"></div>
+			</div>
+			<br>
+			<input type="email" id="enteredby"  style="display: none" name="enteredby">
+			<p style="text-align: center;"><button  type="submit" class="btn btn-success"  id="submit" >Submit</button><br> <span style="font-size: 75%" class="required">Login to Submit</span></p>
+		</form>
+	</div>
+	
+	
+	
+	<!-- <a onclick="signOut();">Sign out</a> -->
+	<script>
+		
+	</script>
+</body>
+</html>
