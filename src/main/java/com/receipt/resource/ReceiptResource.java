@@ -56,14 +56,21 @@ public class ReceiptResource {
     		
 			String generatePdf = ReceiptGenerator.generatePdf(name, mobileNumber, email, pan, amount, transactiondate, scheme );
 			if(generatePdf!= null && !generatePdf.isEmpty()) {
-				ReceiptGenerator.storeIntoRecord(name, mobileNumber, email, pan, amount, transactiondate, scheme,volunteeremail,volunteername);
 				
+				
+				System.out.println("Pushing Donor Details into stoage - Started");
+				ReceiptGenerator.storeIntoRecord(name, mobileNumber, email, pan, amount, transactiondate, scheme,volunteeremail,volunteername);
+				System.out.println("Pushing Donor Details into stoage - Finished");
+				
+				System.out.println("Emailing Reciept to Donor - Started");
 				SendUtility.send(name,email, generatePdf, resourceAsStream);
+				System.out.println("Emailing Reciept to Donor - Finished");
 			}
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {			
 			e.printStackTrace();
+			
+			return Response.temporaryRedirect(new URI("http://localhost:8090/N_POCW/Error.html")).entity("Error.").build();
 		}
     	return Response.temporaryRedirect(new URI("http://localhost:8090/N_POCW/Success.html")).entity("Email Sent Successfully.").build();
     }
