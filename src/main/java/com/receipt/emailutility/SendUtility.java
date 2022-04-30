@@ -19,9 +19,10 @@ import com.sun.mail.smtp.SMTPTransport;
 
 public class SendUtility {
 
-	private final static String from= "shrinivaskattiaws@gmail.com";
-	private final static String password = "@Shrinivas1994";
-	public static void send(String name,String to,String file, InputStream resourceAsStream){  
+	private final static String from= "nilaya.foundation@gmail.com"; private
+	final static String password = "PVN@DWD2020";
+	
+	public static void send(String name,String to,String file, InputStream resourceAsStream) throws Exception{  
        
         Properties props = new Properties();    
         props.put("mail.smtp.host", "smtp.gmail.com");    
@@ -79,7 +80,7 @@ public class SendUtility {
         // transport2.send(message);
          transport.send(message);  
          System.out.println("message sent successfully");    
-        } catch (MessagingException e) {throw new RuntimeException(e);}    
+        } catch (Exception e) {throw e;}    
            
   }
 	
@@ -102,7 +103,7 @@ public class SendUtility {
 		    System.out.println("Successfully authenticated to SMTP.");
 		    return smtpTransport;
 	 }
-	 public static String getMessage(String name, InputStream resourceAsStream)  {
+	 public static String getMessage(String name, InputStream resourceAsStream) throws Exception  {
 		 
 		 
 		 StringBuffer sbBuffer = new StringBuffer();
@@ -120,11 +121,10 @@ public class SendUtility {
 		} catch (Exception e) {
 			
 			e.printStackTrace();
+			throw e;
 		}
 		 String finalString = sbBuffer.toString();
 		 finalString = finalString.replace("[Name]", name);
-		 
-		 System.out.println(finalString);
 		 return finalString;
 		 
 	 }
