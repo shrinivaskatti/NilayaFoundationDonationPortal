@@ -155,45 +155,53 @@ public class ReceiptGenerator {
 		return donorDataList;
 	}
 	public static String generatePdf(String name, String mobileNumber, String emailAddress, String pan,
-			String strDonationAmount, String dateReceived, String scheme) throws FileNotFoundException, IOException, Exception {
-		 
+			String strDonationAmount, String dateReceived, String scheme)  {
+		System.out.println("Generating Receipt - Started");
 		String strFileName=name+"_"+mobileNumber+".pdf";
 		strFileName = strFileName.replaceAll("\\s", "");
 		String destSigned = "D:/temp/"+name+"_signed.pdf"; 
-		String finalPath = dest+strFileName;
-		File destFile = new File(finalPath);
+		String finalPath = null;
+		try {
+			finalPath = dest+strFileName;
+			File destFile = new File(finalPath);
 //		if(destFile.exists()) {
 //			strFileName = name+"_"+RECEIPT_NUMBER+".pdf";
 //		}
-		PdfWriter writer = new PdfWriter(dest+strFileName);
-		PdfDocument pdfDoc = new PdfDocument(writer);
-		pdfDoc.addNewPage(); 
-		Document document = new Document(pdfDoc); 
+			PdfWriter writer = new PdfWriter(dest+strFileName);
+			PdfDocument pdfDoc = new PdfDocument(writer);
+			pdfDoc.addNewPage(); 
+			Document document = new Document(pdfDoc); 
+			
+			configureHeader(document);
+
+			setReceiptDetails(document);
+
+			//addToPersonDetails(document, name, mobileNumber, emailAddress, pan);
+
+			addReceiptBody(document, strDonationAmount, scheme, name, mobileNumber, dateReceived);
+
+
+			addWatermark(pdfDoc, document);
+			
+			addLogo(document);
+			
+			PdfPage page = pdfDoc.getPage(1);
+			Rectangle cropBox = page.getCropBox();
+			Rectangle mediaBox = page.getMediaBox();
+			
+			page.setCropBox(new Rectangle(0, 350, 600, 500));
+
+			PdfCanvas  canvas = new PdfCanvas(pdfDoc, 1);
+			canvas.rectangle(10, 10, 400, 600);
+			canvas.saveState();
+			
+			document.close();
+			System.out.println("Generating Receipt - Finished");
+		} catch (Exception e) {
 		
-		configureHeader(document);
-
-		setReceiptDetails(document);
-
-		//addToPersonDetails(document, name, mobileNumber, emailAddress, pan);
-
-		addReceiptBody(document, strDonationAmount, scheme, name, mobileNumber, dateReceived);
-
-
-		addWatermark(pdfDoc, document);
+			e.printStackTrace();
+		}
 		
-		addLogo(document);
-		
-		PdfPage page = pdfDoc.getPage(1);
-		Rectangle cropBox = page.getCropBox();
-		Rectangle mediaBox = page.getMediaBox();
-		
-		page.setCropBox(new Rectangle(0, 350, 600, 500));
-
-		PdfCanvas  canvas = new PdfCanvas(pdfDoc, 1);
-		canvas.rectangle(10, 10, 400, 600);
-		canvas.saveState();
-		
-		document.close();
 		return finalPath;
 	}
 
