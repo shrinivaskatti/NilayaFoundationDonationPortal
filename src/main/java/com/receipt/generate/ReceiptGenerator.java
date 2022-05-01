@@ -65,12 +65,13 @@ public class ReceiptGenerator {
 	public static final String KEYSTORE = "D:/temp/";
 
 	public static final char[] PASSWORD = "password".toCharArray();
-	public static int RECEIPT_NUMBER =1;
+	public static String RECEIPT_NUMBER ="1";
 	public static String dest = "C:/Users/shkatti/pvnDocs/2021-22/";
 	public static String strHeader ="Name,PAN,Mobile,Email,VolunteerEmail,2020 Trxn Date,2020,Reciept";
 	public static float bodyTextSize = 14;
 	public static String masterFileLocation ="C:/Users/shkatti/pvnDocs/2021-22/DonorMasterList_2021_1.csv";
 	public  static final String logoImage = "C:/Users/shkatti/pvn/genereator/src/main/resources/Nilaya1.jpg"; 
+	public static final String donorStore = "C:/Temp/NilayaFoundation_FY_2023.csv";
 	
 	public static void main(String[] args) {
 		
@@ -416,7 +417,7 @@ public class ReceiptGenerator {
 	 * signer.signDetached(digest, pks, chain, null, null, null, 0, signatureType);
 	 * }
 	 */
-	private static void setReceiptDetails(Document document) throws IOException {
+	private static void setReceiptDetails(Document document) throws Exception {
 		Text receiptHeader = new Text("RECEIPT \n");
 		receiptHeader.setFont(PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD));
 		receiptHeader.setFontSize(18);
@@ -471,14 +472,40 @@ public class ReceiptGenerator {
 		return returnString;
 	}
 
-	private static String getReceiptNumber() {
-
-
+	/**          01234567
+	 * Format  - NFYYYYMMNNN.
+	 * @return Returns Receipt Number
+	 * @throws Exception
+	 */
+	private static String getReceiptNumber() throws Exception {
+		
+		String finalReceiptNumber = "";
 		Calendar cal =  Calendar.getInstance();
 		String year = String.valueOf(cal.get(Calendar.YEAR));
-		String strReceiptNo = String.format("%03d", RECEIPT_NUMBER);
-		RECEIPT_NUMBER++;
-		return "Receipt No :"+year+"/"+strReceiptNo;
+		String month = String.format("%02d",(cal.get(Calendar.MONTH)+1));
+		File file = new File(donorStore);
+		
+		if(file.exists()) {
+			BufferedReader bReader = new BufferedReader(new FileReader(file));
+			String sLine = bReader.readLine();
+			String lastLine = "";
+			while(sLine != null) {
+				
+				lastLine = sLine ;
+						sLine= bReader.readLine();
+			}
+			String[] entrySplit = lastLine.split(",");
+			String prevReceiptNumber = entrySplit[0];
+			String sequenceNumber = prevReceiptNumber.substring(8);
+			int seqInt = Integer.parseInt(sequenceNumber);
+			seqInt++;
+			finalReceiptNumber="NF"+year+month+String.format("%04d", seqInt);;
+		}else {
+			finalReceiptNumber="NF"+year+month+"0001";
+		}
+		System.out.println("Receipt Number Generated :"+finalReceiptNumber);
+		RECEIPT_NUMBER = finalReceiptNumber;
+		return "Receipt No :"+finalReceiptNumber;
 		
 	}
 
@@ -525,9 +552,11 @@ public class ReceiptGenerator {
 	public static boolean storeIntoRecord(String name, String mobileNumber, String emailAddress, String pan,
 			String strDonationAmount, String dateReceived, String scheme, String volunteeremail, String volunteername) {
 		//Name,PAN,Mobile,Email,VolunteerEmail,2020 Trxn Date,2020,Reciept
-		File file = new File("C:/Temp/NilayaFoundation_FY_2023.csv");
+		
 		try {
 			boolean isNewFile = false;
+			File file = new File(donorStore);
+			
 			if(!file.exists()) {
 				isNewFile = true;
 			}
@@ -535,10 +564,12 @@ public class ReceiptGenerator {
 			BufferedWriter bWriter = new BufferedWriter(new FileWriter(file, true));
 			
 			if(isNewFile) {
-				bWriter.write("Name,PAN,Mobile,Email,Donation Date,VolunteerEmail\n");
+				bWriter.write("Receipt No,Name,PAN,Mobile,Email,Donation Date,VolunteerEmail\n");
 			}
 			
 			StringBuffer sb = new StringBuffer();
+			sb.append(RECEIPT_NUMBER);
+			sb.append(",");
 			sb.append(name);
 			sb.append(",");
 			sb.append(pan);
@@ -561,4 +592,7 @@ public class ReceiptGenerator {
 		}
 		return false;
 	}
+	
+	
+	
 }
